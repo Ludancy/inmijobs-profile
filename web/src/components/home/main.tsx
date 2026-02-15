@@ -1,25 +1,12 @@
-import { Video, Image as ImageIcon, Smile, MoreHorizontal, X, ThumbsUp, MessageCircle, Info } from 'lucide-react'
+import { MoreHorizontal, X, ThumbsUp, MessageCircle, Info } from 'lucide-react'
+import { HeaderCreatePost } from './headerCreatePost'
 
 export const Main = () => {
   return (
     <main className="flex flex-col gap-6 p-4 bg-gray-100">
 
       {/* 1. INPUT: ¿Qué estás pensando? */}
-      <section className="bg-white p-4 rounded-2xl shadow-sm border border-gray-100">
-        <div className="flex gap-3 items-center">
-          <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop" className="w-10 h-10 rounded-full" alt="User" />
-          <input
-            type="text"
-            className="text-black flex-1 bg-gray-100 hover:bg-gray-200 transition-colors rounded-full px-4 py-2 text-gray-500 cursor-pointer text-sm"
-            placeholder="¿Qué estás pensando, Meyerowitz?"
-          />
-          <div className="flex gap-2 text-gray-500">
-            <Video size={20} className="text-red-500 cursor-pointer" />
-            <ImageIcon size={20} className="text-green-500 cursor-pointer" />
-            <Smile size={20} className="text-yellow-500 cursor-pointer" />
-          </div>
-        </div>
-      </section>
+      <HeaderCreatePost />
 
       {/* 2. STORIES */}
       <section className="flex gap-3 overflow-x-auto pb-2 scrollbar-hide">
