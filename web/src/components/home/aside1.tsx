@@ -7,11 +7,11 @@ import {
   UserCircle,
   Users
 } from 'lucide-react'
-import { useUserData } from '@/hooks/useUserData'
+import { authClient } from '@/lib/auth'
 
 export const Aside1 = () => {
-
-  const { userData } = useUserData()
+  const session = authClient.useSession()
+  const user = session.data?.user
 
   const menuItems = [
     { label: 'News Feed', icon: Newspaper, to: '/home', badge: 1 },
@@ -27,21 +27,25 @@ export const Aside1 = () => {
       <div className="flex flex-col items-center mb-6">
         <div className="relative w-35 mb-4">
           <div className="absolute">
-            <div className="rounded-full w-20 h-20 bg-linear-to-tr from-purple-400 to-blue-400 opacity-50" />
+            <div className="rounded-full w-20 h-20 bg-linear-to-tr from-purple-400/50 to-blue-400/50" />
           </div>
           <div className="w-fit ml-auto relative">
-            <img
-              src={userData?.Image}
-              className="w-20 h-20 rounded-full border-4 border-purple-200"
-              alt="Profile"
-            />
-            <img className="object-cover absolute bottom-0 translate-y-1/2 left-1/2 w-8 h-8 rounded-full border border-white" src="https://upload.wikimedia.org/wikipedia/commons/0/06/Flag_of_Venezuela.svg" alt="Badge 1" />
-            <img className="object-cover absolute bottom-0 translate-y-1/2 left-3/4 w-12 h-12 rounded-full border border-white" src="https://s1.significados.com/foto/bandera-de-canada-cke.jpg?class=article" alt="Badge 2" />
+            <div
+              className="w-20 h-20 rounded-full border-0 bg-linear-to-tr from-purple-400/50 to-blue-400/50 text-transparent p-1"
+            >
+              <img
+                src={user?.image || undefined}
+                className="w-full h-full rounded-full object-cover opacity-100"
+                alt="Profile"
+              />
+            </div>
+            <img className="object-cover absolute bottom-0 translate-y-1/2 left-1/2 size-10 rounded-full border border-white" src="https://upload.wikimedia.org/wikipedia/commons/0/06/Flag_of_Venezuela.svg" alt="Badge 1" />
+            <img className="object-cover absolute bottom-0 translate-y-1/2 left-3/4 size-10 rounded-full border border-white" src="https://s1.significados.com/foto/bandera-de-canada-cke.jpg?class=article" alt="Badge 2" />
           </div>
 
         </div>
-        <h2 className="font-bold mt-2 text-gray-800">{userData?.Name}</h2>
-        <p className="text-sm text-gray-400">@nikitinteam</p>
+        <h2 className="font-bold mt-2 text-gray-800">{user?.name}</h2>
+        <p className="text-sm text-gray-400">@{user?.name}</p>
       </div>
 
       <nav className="flex flex-col gap-1">
