@@ -44,6 +44,7 @@ func main() {
 	r.Route("/api", func(r chi.Router) {
 		r.Get("/ping", pingHandler.Ping)
 		r.Put("/profiles/me", profileHandler.UpdateProfile)
+		r.Get("/profiles/{id}",profileHandler.GetProfile)
 	})
 
 	port := ":8080"
