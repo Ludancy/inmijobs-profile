@@ -7,6 +7,8 @@ export const env = createEnv({
     PORT: z.coerce.number().default(3000),
     DATABASE_URL: z.url(),
     DATABASE_TOKEN: z.string().optional(),
+    BETTER_AUTH_SECRET: z.string().optional(),
+    BACKEND_CORE_URL: z.string().default("http://localhost:8080"),
   },
   runtimeEnv: process.env,
   emptyStringAsUndefined: true,

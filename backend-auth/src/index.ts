@@ -67,7 +67,8 @@ app.all("*", async (c) => {
   //  fetchOptions.body = await c.req.text();
   //}
 
-  const res = await fetch(`http://localhost:8080${c.req.path}`, fetchOptions);
+  const targetUrl = `${env.BACKEND_CORE_URL}${c.req.path}`;
+  const res = await fetch(targetUrl, fetchOptions);
 
   return new Response(res.body, {
     status: res.status,
