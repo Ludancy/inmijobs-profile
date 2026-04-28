@@ -10,12 +10,14 @@ const app = new Hono();
 app.use(logger());
 app.use(
   cors({
-    origin: env.FRONTEND_URL,
+    origin: (origin) => origin, // Permite cualquier origin (útil para URLs dinámicas de Vercel)
     allowHeaders: [
       "Content-Type",
+      "Authorization",
       "X-User-Agent",
+      "Accept"
     ],
-    allowMethods: ["POST", "GET", "OPTIONS", "DELETE"],
+    allowMethods: ["POST", "GET", "OPTIONS", "DELETE", "PUT", "PATCH"],
     exposeHeaders: ["Content-Length"],
     maxAge: 600,
     credentials: true,
