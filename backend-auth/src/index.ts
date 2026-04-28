@@ -72,10 +72,16 @@ app.all("*", async (c) => {
   const targetUrl = `${env.BACKEND_CORE_URL}${c.req.path}`;
   const res = await fetch(targetUrl, fetchOptions);
 
+  const responseHeaders = new Headers(res.headers);
+  // Node's fetch automatically decompresses the body, so we must remove the encoding header
+  // to prevent the browser from trying to decompress it again.
+  responseHeaders.delete("content-encoding");
+  responseHeaders.delete("content-length");
+
   return new Response(res.body, {
     status: res.status,
     statusText: res.statusText,
-    headers: res.headers,
+    headers: responseHeaders,
   });
 });
 
