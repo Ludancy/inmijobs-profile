@@ -80,6 +80,7 @@ function RouteComponent() {
             <Button type="submit" disabled={loading} className={btnPrimaryClass}>{loading ? "Iniciando sesión..." : "Iniciar Sesión"}</Button>
           </form>
 
+          {/*
           <div className="mt-6">
             <div className="relative"><div className="absolute inset-0 flex items-center"><div className="w-full border-t border-[#E5E7EB]"></div></div><div className="relative flex justify-center text-xs uppercase"><span className="bg-white px-4 text-[#6B7280] font-medium">O continúa con</span></div></div>
             <div className="mt-6 grid grid-cols-2 gap-3">
@@ -87,6 +88,7 @@ function RouteComponent() {
               <Button type="button" variant="outline" onClick={() => handleSocialLogin("linkedin")} className={btnOutlineClass}><LinkedInIcon />LinkedIn</Button>
             </div>
           </div>
+          */}
 
           <div className="mt-6 text-center">
             <p className="text-[#6B7280]">¿No tienes una cuenta?{" "}<Link to="/signup" className="font-bold bg-linear-to-r from-[#F97316] to-[#8B5CF6] bg-clip-text text-transparent hover:from-[#EA580C] hover:to-[#7C3AED]">Regístrate gratis</Link></p>

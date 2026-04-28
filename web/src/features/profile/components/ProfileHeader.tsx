@@ -91,10 +91,11 @@ export function ProfileHeader({ user, onEditProfile }: ProfileHeaderProps) {
                   {/* AQUÍ ESTÁ LA MAGIA: absolute, top-full, right-0 y mt-2 */}
                   <div className="absolute top-full right-0 mt-2 z-40 w-48 bg-white dark:bg-card border dark:border-border rounded-xl shadow-lg overflow-hidden">
                     <button
-                      className="w-full text-left px-4 py-2 hover:bg-gray-100 dark:hover:bg-muted/50 text-sm font-medium"
-                      onClick={() => triggerEdit('avatar')}
+                      className="w-full text-left px-4 py-2 text-slate-400 cursor-not-allowed text-sm font-medium"
+                      onClick={() => alert("La subida de imágenes está temporalmente deshabilitada por mantenimiento.")}
+                      title="Temporalmente deshabilitado"
                     >
-                      Cambiar foto de perfil
+                      Cambiar foto de perfil (Deshabilitado)
                     </button>
                   </div>
                 </>

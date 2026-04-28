@@ -75,17 +75,18 @@ function RouteComponent() {
   ), [hasCompany])
 
   return (
-    <div className="bg-linear-to-br from-[#FFF3E6] to-[#F3E8FF] h-[calc(100vh-64px)] p-8 gap-4 flex flex-col">
-      <JobsSearchFilter jobFilters={filters} onChange={(newFiltes) => {
-        setFilters(newFiltes);
-        setPage(1);
-      }}
-      />
+    <div className="bg-linear-to-br from-[#FFF3E6] to-[#F3E8FF] h-[calc(100vh-64px)] p-4 md:p-8 flex flex-col">
+      <div className="max-w-7xl mx-auto w-full flex-1 flex flex-col gap-4">
+        <JobsSearchFilter jobFilters={filters} onChange={(newFiltes) => {
+          setFilters(newFiltes);
+          setPage(1);
+        }}
+        />
 
-      {actionButtons}
+        {actionButtons}
 
-      <div className="max-w-7xl flex w-full flex-1 mx-auto rounded-lg border border-[#E5E7EB] bg-white overflow-hidden">
-        {data?.data.jobs.length ? (<>
+        <div className="flex w-full flex-1 rounded-lg border border-[#E5E7EB] bg-white overflow-hidden">
+          {data?.data.jobs.length ? (<>
           <div className="h-[calc(100%-64px)]">
             <ScrollArea className="h-full border-r border-[#E5E7EB]">
               <div className="flex flex-col gap-px bg-[#E5E7EB]">
@@ -120,6 +121,7 @@ function RouteComponent() {
             </p>
           </div>
         }
+      </div>
       </div>
 
       <CreateJobModal
