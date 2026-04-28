@@ -3,6 +3,7 @@ import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { db } from "./src/db/index";
 import { jwt } from "better-auth/plugins";
 import * as schema from "./src/db/schema";
+import { env } from "./env";
 
 export const auth = betterAuth({
   plugins: [jwt()],
@@ -19,5 +20,5 @@ export const auth = betterAuth({
   emailAndPassword: {
     enabled: true,
   },
-  trustedOrigins: ["http://localhost:3001"],
+  trustedOrigins: [env.FRONTEND_URL],
 });

@@ -9,6 +9,7 @@ export const env = createEnv({
     DATABASE_TOKEN: z.string().optional(),
     BETTER_AUTH_SECRET: z.string().optional(),
     BACKEND_CORE_URL: z.string().default("http://localhost:8080"),
+    FRONTEND_URL: z.string().default("http://localhost:3001"),
   },
   runtimeEnv: process.env,
   emptyStringAsUndefined: true,
