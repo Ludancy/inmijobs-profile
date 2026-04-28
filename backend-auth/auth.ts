@@ -21,4 +21,10 @@ export const auth = betterAuth({
     enabled: true,
   },
   trustedOrigins: [env.FRONTEND_URL],
+  advanced: {
+    defaultCookieAttributes: {
+      sameSite: "none",
+      secure: true,
+    },
+  },
 });
