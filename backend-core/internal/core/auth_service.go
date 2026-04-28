@@ -6,6 +6,7 @@ import (
 	"errors"
 	"log/slog"
 	"net/http"
+	"os"
 	"strings"
 
 	"github.com/Gabo-div/bingo/inmijobs/backend-core/internal/model"
@@ -54,7 +55,12 @@ func (s AuthService) UserFromHeader(ctx context.Context, header http.Header) (mo
 	}
 
 	// 2. Preguntarle a better-auth si el token es válido
-	authReq, err := http.NewRequestWithContext(ctx, "GET", "http://localhost:3000/api/auth/get-session", nil)
+	authUrl := os.Getenv("AUTH_SERVICE_URL")
+	if authUrl == "" {
+		authUrl = "http://localhost:3000"
+	}
+	
+	authReq, err := http.NewRequestWithContext(ctx, "GET", authUrl+"/api/auth/get-session", nil)
 	if err != nil {
 		slog.Error("[AuthService][UserFromHeader] error creating request to auth server", "error", err)
 		return model.User{}, ErrUnauthorized
@@ -62,14 +68,21 @@ func (s AuthService) UserFromHeader(ctx context.Context, header http.Header) (mo
 	
 	// Le pasamos la cookie al servidor de better-auth
 	authReq.Header.Set("cookie", "better-auth.session_token="+sessionToken)
+	// También pasamos el token por si acaso
+	authReq.Header.Set("Authorization", "Bearer "+sessionToken)
 
 	client := &http.Client{}
 	resp, err := client.Do(authReq)
-	if err != nil || resp.StatusCode != http.StatusOK {
-		slog.Error("[AuthService][UserFromHeader] invalid session according to auth server", "status", resp.StatusCode)
+	if err != nil {
+		slog.Error("[AuthService][UserFromHeader] error contacting auth server", "error", err)
 		return model.User{}, ErrUnauthorized
 	}
 	defer resp.Body.Close()
+
+	if resp.StatusCode != http.StatusOK {
+		slog.Error("[AuthService][UserFromHeader] invalid session according to auth server", "status", resp.StatusCode)
+		return model.User{}, ErrUnauthorized
+	}
 
 	var authData BetterAuthSessionResponse
 	if err := json.NewDecoder(resp.Body).Decode(&authData); err != nil {
