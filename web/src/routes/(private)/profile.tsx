@@ -136,7 +136,7 @@ function ProfilePage() {
       const base64Image = await getCroppedImg(imageSrc, croppedAreaPixels);
 
       // Enviamos a Go
-      const response = await fetch('/api/profiles/me/image', {
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/profiles/me/image`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
