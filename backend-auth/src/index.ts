@@ -29,12 +29,10 @@ app.on(["POST", "GET"], "/api/auth/*", (c) => {
   return auth.handler(c.req.raw);
 });
 
-const getToken = async (headers: Headers) => {
-  
+const getValidSession = async (headers: Headers) => {
   try {
-    const { token } = await auth.api.getToken({ headers });
-    console.log(" Token  con éxito:", token);
-    return token;
+    const session = await auth.api.getSession({ headers });
+    return session;
   } catch (error) {
     return null;
   }
@@ -49,25 +47,27 @@ app.all("*", async (c) => {
   headers.delete("content-length"); // fetch calculará esto automáticamente si hay un body
   // 👆 FIN DE LÍNEAS NUEVAS
 
-  const token = await getToken(headers);
-    console.log(" Token  con éxito:", token);
-  if (token) {
-
-    headers.append("Authorization", `Bearer ${token}`);
-   
+  const sessionData = await getValidSession(headers);
+  if (sessionData && sessionData.user) {
+    // Si la sesión es válida, le pasamos la identidad directamente a Go
+    headers.append("X-User-Id", sessionData.user.id);
   }
 
   headers.delete("content-length");
+  let bodyBuffer;
+  if (c.req.method !== "GET" && c.req.method !== "HEAD") {
+    try {
+      bodyBuffer = await c.req.arrayBuffer();
+    } catch (e) {
+      // Ignorar si no hay body
+    }
+  }
+
   const fetchOptions: any = {
     method: c.req.method,
     headers: headers,
-    body: c.req.method !== "GET" && c.req.method !== "HEAD" ? c.req.raw.body : undefined,
-    duplex: 'half'
+    body: bodyBuffer && bodyBuffer.byteLength > 0 ? bodyBuffer : undefined,
   };
-
-  //if (c.req.method !== "GET" && c.req.method !== "HEAD") {
-  //  fetchOptions.body = await c.req.text();
-  //}
 
   const targetUrl = `${env.BACKEND_CORE_URL}${c.req.path}`;
   const res = await fetch(targetUrl, fetchOptions);

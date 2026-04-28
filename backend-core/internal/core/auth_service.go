@@ -35,7 +35,16 @@ type BetterAuthSessionResponse struct {
 }
 
 func (s AuthService) UserFromHeader(ctx context.Context, header http.Header) (model.User, error) {
-	// 1. Extraer el token (del Header o de la Cookie)
+	// 1. Verificamos si el proxy ya validó la sesión y nos pasó el ID directamente
+	proxyUserId := header.Get("X-User-Id")
+	if proxyUserId != "" {
+		user, err := s.authRepository.GetUserById(ctx, proxyUserId)
+		if err == nil {
+			return user, nil
+		}
+	}
+
+	// 2. Extraer el token (del Header o de la Cookie)
 	var sessionToken string
 	
 	authHeader := header.Get("Authorization")
