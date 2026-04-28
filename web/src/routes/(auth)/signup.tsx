@@ -23,10 +23,17 @@ function RouteComponent() {
     setLoading(true)
     setError("")
     try {
-      await authClient.signUp.email({ ...form }, {
-        onSuccess: () => navigate({ to: "/signin" }),
-        onError: (ctx) => alert(ctx.error.message),
+      const { data, error } = await authClient.signUp.email({
+        name: form.name,
+        email: form.email,
+        password: form.password
       })
+
+      if (error) {
+        alert(error.message || "Error al crear la cuenta")
+      } else if (data) {
+        navigate({ to: "/signin" })
+      }
     } catch {
       setError("Error al crear la cuenta. Por favor, intenta de nuevo.")
     } finally {

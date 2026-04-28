@@ -26,10 +26,16 @@ function RouteComponent() {
     setLoading(true)
     setError("")
     try {
-      await authClient.signIn.email({ ...form }, {
-        onSuccess: () => navigate({ to: "/" }),
-        onError: (ctx) => setError(ctx.error.message),
+      const { data, error } = await authClient.signIn.email({ 
+        email: form.email,
+        password: form.password 
       })
+      
+      if (error) {
+        setError(error.message || "Error al iniciar sesión")
+      } else if (data) {
+        navigate({ to: "/" })
+      }
     } catch {
       setError("Correo o contraseña inválidos. Por favor, intenta de nuevo.")
     } finally {
