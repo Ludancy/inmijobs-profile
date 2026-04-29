@@ -31,6 +31,11 @@ func (h *CompanyHandler) Create(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	if user.Email == "invitado@inmijobs.com" {
+		utils.RespondError(w, http.StatusForbidden, "Los invitados no pueden crear compañías")
+		return
+	}
+
 	var req dto.CreateCompanyRequest
 	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
 		utils.RespondError(w, http.StatusBadRequest, "El json esta mal formado")
