@@ -11,7 +11,7 @@ export const HeaderCreatePost = () => {
   return (
     <section className="bg-white p-4 rounded-2xl shadow-sm border border-gray-100">
       <div className="flex gap-3 items-center">
-        <img src={user?.image || undefined} className="w-10 h-10 rounded-full" alt="User" />
+        <img src={user?.image || `https://ui-avatars.com/api/?name=${user?.name || 'User'}&background=random`} className="w-10 h-10 rounded-full" alt="User" />
         <button
           type="button"
           className="flex-1 bg-gray-100 hover:bg-gray-200 transition-colors rounded-full px-4 py-2 text-gray-500 cursor-pointer text-sm text-left"
