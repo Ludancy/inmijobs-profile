@@ -32,24 +32,21 @@ export const Aside1 = () => {
   return (
     <aside className="w-full flex flex-col gap-4 p-4 sticky top-0 h-full border-r border-[#E5E7EB] bg-white/80 backdrop-blur-md">
       <Link to="/profile" className="flex flex-col items-center py-6 hover:bg-gray-100 cursor-pointer rounded-lg">
-        <div className="relative w-35 mb-4">
-          <div className="absolute">
-            <div className="rounded-full w-20 h-20 bg-linear-to-tr from-purple-400/50 to-blue-400/50" />
-          </div>
-          <div className="w-fit ml-auto relative">
-            <div
-              className="w-20 h-20 rounded-full border-0 bg-linear-to-tr from-purple-400/50 to-blue-400/50 text-transparent p-1"
-            >
+        <div className="relative mb-4 flex justify-center w-full">
+          <div className="relative shrink-0">
+            <div className="w-24 h-24 rounded-full bg-gradient-to-tr from-purple-100 to-blue-100 ring-4 ring-white shadow-lg overflow-hidden flex items-center justify-center">
               <img
                 src={avatarUrl}
-                className="w-full h-full rounded-full object-cover opacity-100"
+                className="w-full h-full object-cover"
                 alt="Profile"
               />
             </div>
-            <img className="object-cover absolute bottom-0 translate-y-1/2 left-1/2 size-10 rounded-full border border-white" src="https://upload.wikimedia.org/wikipedia/commons/0/06/Flag_of_Venezuela.svg" alt="Badge 1" />
-            <img className="object-cover absolute bottom-0 translate-y-1/2 left-3/4 size-10 rounded-full border border-white" src="https://s1.significados.com/foto/bandera-de-canada-cke.jpg?class=article" alt="Badge 2" />
+            
+            <div className="absolute bottom-0 right-0 flex -space-x-2 translate-x-2 translate-y-1">
+              <img className="w-7 h-7 rounded-full object-cover border-2 border-white shadow-sm" src="https://upload.wikimedia.org/wikipedia/commons/0/06/Flag_of_Venezuela.svg" alt="Badge 1" />
+              <img className="w-7 h-7 rounded-full object-cover border-2 border-white shadow-sm" src="https://s1.significados.com/foto/bandera-de-canada-cke.jpg?class=article" alt="Badge 2" />
+            </div>
           </div>
-
         </div>
         <h2 className="font-bold mt-2 text-gray-800">{displayName}</h2>
         <p className="text-sm text-gray-400">@{displayName}</p>
