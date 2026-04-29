@@ -48,6 +48,40 @@ function RouteComponent() {
     catch { setError(`Error al iniciar sesión con ${provider === "linkedin" ? "LinkedIn" : "Google"}. Por favor, intenta de nuevo.`) }
   }
 
+  const handleGuestLogin = async () => {
+    setLoading(true)
+    setError("")
+    try {
+      const guestEmail = "invitado@inmijobs.com"
+      const guestPass = "InvitadoPassword123!"
+      
+      const { data, error: signInError } = await authClient.signIn.email({ 
+        email: guestEmail,
+        password: guestPass 
+      })
+      
+      if (signInError) {
+        const { error: signUpError } = await authClient.signUp.email({
+          email: guestEmail,
+          password: guestPass,
+          name: "Usuario Invitado"
+        })
+        
+        if (signUpError) {
+          setError("Error al crear cuenta de invitado.")
+        } else {
+          navigate({ to: "/" })
+        }
+      } else if (data) {
+        navigate({ to: "/" })
+      }
+    } catch {
+      setError("Error inesperado al intentar entrar como invitado.")
+    } finally {
+      setLoading(false)
+    }
+  }
+
   return (
     <div className="min-h-screen bg-linear-to-br from-[#FFF3E6] to-[#F3E8FF] flex items-center justify-center p-4 relative">
       <div className="w-full max-w-md relative">
@@ -78,6 +112,15 @@ function RouteComponent() {
             </div>
             {error && <div className="bg-[#FEF2F2] border border-[#EF4444]/30 rounded-xl p-4"><p className="text-[#EF4444] text-sm text-center">{error}</p></div>}
             <Button type="submit" disabled={loading} className={btnPrimaryClass}>{loading ? "Iniciando sesión..." : "Iniciar Sesión"}</Button>
+            
+            <div className="relative mt-4">
+              <div className="absolute inset-0 flex items-center"><div className="w-full border-t border-[#E5E7EB]"></div></div>
+              <div className="relative flex justify-center text-xs uppercase"><span className="bg-white px-4 text-[#6B7280] font-medium">O</span></div>
+            </div>
+            
+            <Button type="button" onClick={handleGuestLogin} disabled={loading} variant="outline" className={`${btnOutlineClass} w-full mt-4`}>
+              Entrar como Invitado
+            </Button>
           </form>
 
           {/*

@@ -57,6 +57,10 @@ func (p PostHandler) CreatePost(w http.ResponseWriter, r *http.Request) {
 	}
 
 	var req dto.CreatePostRequest
+	if user.Email == "invitado@inmijobs.com" {
+		utils.RespondError(w, http.StatusForbidden, "Los invitados no pueden crear posts")
+		return
+	}
 	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
 		utils.RespondError(w, http.StatusBadRequest, "Invalid request body")
 		return

@@ -8,16 +8,18 @@ export const HeaderCreatePost = () => {
   const session = authClient.useSession()
   const user = session.data?.user
 
+  const isGuest = user?.email === "invitado@inmijobs.com"
+
   return (
     <section className="bg-white p-4 rounded-2xl shadow-sm border border-gray-100">
-      <div className="flex gap-3 items-center">
+      <div className={`flex gap-3 items-center ${isGuest ? 'opacity-60 pointer-events-none' : ''}`}>
         <img src={user?.image || `https://ui-avatars.com/api/?name=${user?.name || 'User'}&background=random`} className="w-10 h-10 rounded-full" alt="User" />
         <button
           type="button"
           className="flex-1 bg-gray-100 hover:bg-gray-200 transition-colors rounded-full px-4 py-2 text-gray-500 cursor-pointer text-sm text-left"
           onClick={() => setIsModalOpen(true)}
         >
-          ¿Qué estás pensando, {user?.name}?
+          {isGuest ? "Los invitados no pueden crear posts" : `¿Qué estás pensando, ${user?.name}?`}
         </button>
         <div className="flex gap-2 text-gray-500">
           <Video size={20} className="text-red-500 cursor-pointer" />
